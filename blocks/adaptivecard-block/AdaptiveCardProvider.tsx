@@ -4,16 +4,17 @@ import * as React from 'react';
 import { ActionMenu, ActionList, Box } from '@primer/react'
 
 import "./index.css";
-import { IContainerHost, Theme } from "./containers/IContainerHost";
-import { VivaConnectionHost, VivaConnectionsLightHost } from "./containers/viva-connections/VivaConnectionsLight";
-import { DefaultHost } from "./containers/default/DefaultHost";
-import { WebChatHost } from "./containers/webchat/WebChat";
-import { OutlookHost } from "./containers/outlook/OutlookHost";
-import { WidgetHost } from "./containers/widget/WidgetHost";
-import { TeamsHost } from "./containers/teams/TeamsHost";
-import { CortanaHost } from "./containers/cortana/CortanaHost";
-import { CortanaClassicHost } from "./containers/cortana-classic/CortanaClassicHost";
-import { VivaConnectionsDarkHost } from "./containers/viva-connections/VivaConnectionsDark";
+import { ContainerSize, CortanaClassicContainer, CortanaContainer, FederatedSearchContainer, HostContainer, OutlookContainer, TeamsContainer, VivaConnectionsContainer, WebChatContainer, WidgetContainer } from "./containers";
+// import { IContainerHost, Theme } from "./containers/IContainerHost";
+// import { VivaConnectionHost, VivaConnectionsLightHost } from "./containers/viva-connections/VivaConnectionsLight";
+// import { DefaultHost } from "./containers/default/DefaultHost";
+// import { WebChatHost } from "./containers/webchat/WebChat";
+// import { OutlookHost } from "./containers/outlook/OutlookHost";
+// import { WidgetHost } from "./containers/widget/WidgetHost";
+// import { TeamsHost } from "./containers/teams/TeamsHost";
+// import { CortanaHost } from "./containers/cortana/CortanaHost";
+// import { CortanaClassicHost } from "./containers/cortana-classic/CortanaClassicHost";
+// import { VivaConnectionsDarkHost } from "./containers/viva-connections/VivaConnectionsDark";
 
 export interface IAdaptiveCardProviderProps {
     content: string;
@@ -53,47 +54,61 @@ export class AdaptiveCardProvider extends React.Component<IAdaptiveCardProviderP
 
     public render(): React.ReactElement<IAdaptiveCardProviderProps> {
         const { selectedHostAppIndex, selectedThemeIndex } = this.state;
-        const selectedHost = this.hostTypes[selectedHostAppIndex];
-        const selectedTheme = this.themes[selectedThemeIndex];
-        var container: IContainerHost = new DefaultHost();
-        
-        switch (selectedHost.id) {
-            case 'webchat':
-                container = new WebChatHost();
-                break;
-            case 'outlook':
-                container = new OutlookHost();
-                break;
-            case 'teams':
-                container = new TeamsHost();
-                break;
-            case 'viva-connections':
-                if (selectedTheme.isDark) {
-                    container = new VivaConnectionsDarkHost();
-                } else {
-                    container = new VivaConnectionsLightHost();
-                }
 
-                break;
-            case 'cortana-skills':
-                container = new CortanaHost();
-                break;
-            // case 'bf-image':
-            //     hostConfig = null;
-            //     break;
-            case 'cortana-classic':
-                container = new CortanaClassicHost();
-                break;
-            // case 'federated-search':
-            //     hostConfig = null;
-            //     break;
-            case 'widget':
-                container = new WidgetHost();
-                break;
-            // default:
-            //     hostConfig = null;
-            //     break;
-        }
+        const hostContainers: HostContainer[] = [
+            new WebChatContainer("Bot Framework WebChat", "containers/webchat/webchat-container.css"),
+            new OutlookContainer("Outlook Actionable Messages", "containers/outlook/outlook-container.css"),
+            new TeamsContainer(),
+            new VivaConnectionsContainer(),
+            new CortanaContainer(),
+            new CortanaClassicContainer("Cortana Skills (Classic)", "containers/cortana-classic/cortana-container.css"),
+            new FederatedSearchContainer("Federated Search", "containers/federated-search/federated-search-container.css"),
+            new WidgetContainer(ContainerSize.Large)
+        ];
+
+        const selectedHost = hostContainers[selectedHostAppIndex];
+        const selectedTheme = this.themes[selectedThemeIndex];
+
+
+        // var container: IContainerHost = new DefaultHost();
+        
+        // switch (selectedHost.id) {
+        //     case 'webchat':
+        //         container = new WebChatHost();
+        //         break;
+        //     case 'outlook':
+        //         container = new OutlookHost();
+        //         break;
+        //     case 'teams':
+        //         container = new TeamsHost();
+        //         break;
+        //     case 'viva-connections':
+        //         if (selectedTheme.isDark) {
+        //             container = new VivaConnectionsDarkHost();
+        //         } else {
+        //             container = new VivaConnectionsLightHost();
+        //         }
+
+        //         break;
+        //     case 'cortana-skills':
+        //         container = new CortanaHost();
+        //         break;
+        //     // case 'bf-image':
+        //     //     hostConfig = null;
+        //     //     break;
+        //     case 'cortana-classic':
+        //         container = new CortanaClassicHost();
+        //         break;
+        //     // case 'federated-search':
+        //     //     hostConfig = null;
+        //     //     break;
+        //     case 'widget':
+        //         container = new WidgetHost();
+        //         break;
+        //     // default:
+        //     //     hostConfig = null;
+        //     //     break;
+        // }
 
 
 
@@ -102,7 +117,7 @@ export class AdaptiveCardProvider extends React.Component<IAdaptiveCardProviderP
 
         // Set its hostConfig property unless you want to use the default Host Config
         // Host Config defines the style and behavior of a card
-        adaptiveCard.hostConfig = new AdaptiveCards.HostConfig(container.getHostConfig(selectedTheme.isDark));
+        adaptiveCard.hostConfig = new AdaptiveCards.HostConfig(selectedHost.getHostConfig());
 
         // Set the adaptive card's event handlers. onExecuteAction is invoked
         // whenever an action is clicked in the card
@@ -111,8 +126,11 @@ export class AdaptiveCardProvider extends React.Component<IAdaptiveCardProviderP
         // Parse the card payload
         adaptiveCard.parse(JSON.parse(this.props.content));
 
+        const hostDiv:HTMLDivElement = document.createElement("div");
+        selectedHost.renderTo(hostDiv);
+
         // Render the card to an HTML element:
-        const cardData = adaptiveCard.render()
+        const cardData = adaptiveCard.render(selectedHost.cardHost)
 
         return (
             <Box >
@@ -128,9 +146,9 @@ export class AdaptiveCardProvider extends React.Component<IAdaptiveCardProviderP
 
                         <ActionMenu.Overlay>
                             <ActionList selectionVariant="single">
-                                {this.hostTypes.map((type, index) => (
+                                {hostContainers.map((type, index) => (
                                     <ActionList.Item key={index} selected={index === selectedHostAppIndex} onSelect={() => this.setState({ 
-                                        selectedThemeIndex: this.hostTypes[index].hasDark ? this.state.selectedThemeIndex : 0,
+                                        selectedThemeIndex: type.supportsMultipleThemes ? this.state.selectedThemeIndex : 0,
                                         selectedHostAppIndex: index
                                     }
                                         )}>
@@ -143,7 +161,7 @@ export class AdaptiveCardProvider extends React.Component<IAdaptiveCardProviderP
                 </Box>
                 <Box p={1} >
                     <ActionMenu>
-                        <ActionMenu.Button aria-label="Select theme" disabled={!selectedHost.hasDark}>
+                        <ActionMenu.Button aria-label="Select theme" disabled={!selectedHost.supportsMultipleThemes}>
                             Theme: {selectedTheme.name}
                         </ActionMenu.Button>
 
@@ -163,8 +181,8 @@ export class AdaptiveCardProvider extends React.Component<IAdaptiveCardProviderP
                 </Box>
 
                 <Box >
-
-                    <div id="cardArea" className="acd-designer-cardArea" role="region" aria-label="card preview" style={{backgroundColor: container.cardAreaBackgroundColor}}>
+                    <div dangerouslySetInnerHTML={{ __html: hostDiv }}/>
+                    {/* <div id="cardArea" className="acd-designer-cardArea" role="region" aria-label="card preview" style={{backgroundColor: container.cardAreaBackgroundColor}}>
 
 
 
@@ -176,7 +194,7 @@ export class AdaptiveCardProvider extends React.Component<IAdaptiveCardProviderP
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </Box>
             </Box>
         );

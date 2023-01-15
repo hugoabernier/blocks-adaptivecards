@@ -14,7 +14,7 @@
 	"supportsInteractivity": true,
 	"fontTypes": {
 		"default": {
-			"fontFamily": "Calibri, sans-serif",
+			"fontFamily": "'Segoe UI', 'sans-serif', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue'",
 			"fontSizes": {
 				"small": 12,
 				"default": 14,
@@ -70,8 +70,8 @@
 					"subtle": "#0063B1"
 				},
 				"attention": {
-					"default": "#EC130E",
-					"subtle": "#DDEC130E"
+					"default": "#B00000",
+					"subtle": "#DDB00000"
 				},
 				"good": {
 					"default": "#028A02",
@@ -260,14 +260,14 @@
 		"large": 160
 	},
 	"actions": {
-		"maxActions": 100,
+		"maxActions": 5,
 		"spacing": "default",
 		"buttonSpacing": 8,
 		"showCard": {
 			"actionMode": "inline",
 			"inlineTopMargin": 8
 		},
-		"actionsOrientation": "vertical",
+		"actionsOrientation": "horizontal",
 		"actionAlignment": "stretch"
 	},
 	"adaptiveCard": {
@@ -294,5 +294,27 @@
 			"wrap": true
 		},
 		"spacing": 8
+	},
+	"inputs": 
+	{
+		"label": 
+		{
+			"inputSpacing": "small",
+			"requiredInputs": {
+				"suffix": " (required)",
+				"weight": "bolder",
+				"size": "medium"
+			},
+			"optionalInputs": {
+				"color": "dark",
+				"isSubtle": true
+			}
+		},
+		"errorMessage": 
+		{
+			"spacing": "small",
+			"size": "small",
+			"weight": "bolder"
+		}
 	}
 }
