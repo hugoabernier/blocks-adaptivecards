@@ -8,6 +8,14 @@ export enum ColorTheme {
     Dark = "Dark"
 };
 
+export enum DeviceEmulation {
+    Desktop = "Desktop (unconstrained)",
+    SmallMobile = "Small mobile (320px)",
+    LargeMobile = "Large mobile (414px)",
+    SmallTablet = "Small tablet (768px)",
+    LargeTablet = "Large tablet (1024px)"
+}
+
 export abstract class HostContainer {
     private _cardHost: HTMLElement;
     private _elementsRegistry = new CardObjectRegistry<CardElement>();
@@ -104,6 +112,10 @@ export abstract class HostContainer {
     // if various containers support different themes in the future, we can override this method
     static get supportedContainerThemes(): string[] {
         return Object.values(ColorTheme);
+    }
+
+    static get supportedDeviceEmulations(): string[] {
+        return Object.values(DeviceEmulation);
     }
 
     get supportsMultipleThemes(): boolean {

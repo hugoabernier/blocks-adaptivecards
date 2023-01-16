@@ -1,45 +1,12 @@
-.card-area {
-  font-family: 'Segoe UI', sans-serif;
-  font-size: 14px;
+.acd-designer-cardArea {
   flex: 1 1 70%;
   display: flex;
   flex-direction: column;
   overflow: auto;
   box-sizing: border-box;
-  background-color: rgb(246, 246, 246);
 }
 
-.ac-designer-host {
-
-  font-family: 'Segoe UI', sans-serif;
-  font-size: 14px;
+.acd-designer-host {
   margin: 20px 0;
   padding: 0 40px 0 20px;
-  box-sizing: border-box;
-}
-
-.host-container {
-  font-family: 'Segoe UI', sans-serif;
-  font-size: 14px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 25px 57px 0 rgba(0, 0, 0, .22), 0 5px 14px 0 rgba(0, 0, 0, .18);
-  min-height: 0;
-  min-width: 320px;
-  max-width: 375px;
-  box-sizing: border-box;
-}
-
-.ac-container {
-  font-family: 'Segoe UI', sans-serif;
-  font-size: 14px;
-  background-color: unset !important;
-  border: none !important;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  box-sizing: border-box;
-  flex: 0 0 auto;
-  padding: 16px;
-  margin: 0px;
 }

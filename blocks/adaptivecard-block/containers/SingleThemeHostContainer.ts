@@ -1,4 +1,4 @@
-import { HostContainer } from "./host-container";
+import { HostContainer } from "./HostContainer";
 
 export abstract class SingleThemeHostContainer extends HostContainer {
     private _styleSheet: string;

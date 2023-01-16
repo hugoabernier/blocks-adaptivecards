@@ -1,10 +1,4 @@
-.card-frame {
-    border: 1px solid #F1F1F1;
-    box-shadow: 0 0 15px -5px rgba(0, 0, 0, 0.4);
-    background: white;
-}
-
-.ac-media-poster {}
+export const lightTheme = `.ac-media-poster {}
 
 .ac-media-poster.empty {
     height: 200px;
@@ -47,19 +41,19 @@ a.ac-anchor {
 }
 
 a.ac-anchor:link {
-    color: #005a9e;
+    color: #6264A7;
 }
 
 a.ac-anchor:visited {
-    color: #005a9e;
+    color: #6264A7;
 }
 
 a.ac-anchor:link:active {
-    color: #004d84;
+    color: #6264A7;
 }
 
 a.ac-anchor:visited:active {
-    color: #004d84;
+    color: #6264A7;
 }
 
 .ac-container.ac-selectable, .ac-columnSet.ac-selectable {
@@ -75,20 +69,35 @@ a.ac-anchor:visited:active {
 }
 
 .ac-pushButton {
+    overflow: hidden;
+    text-overflow: ellipsis;
     text-align: center;
     vertical-align: middle;
     cursor: pointer;
-    font-family: "Calibri", sans-serif;
+    font-family: "Segoe UI", sans-serif;
     font-size: 14px;
-    font-weight: 600;
-    padding: 8px;
+    padding: 4px 10px 5px 10px;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    border: 1px solid #DDDDDD;
-	background-color: #FFFFFF;
-	color: #0063B1;
+    height: 32px;
+    background-color: white;
+    color: #6264A7;
+    border: 2px solid #BFC0DA;
+    border-radius: 4px;
+}
+
+.ac-pushButton:hover {
+    background-color: #6264A7;
+    border: 2px solid #6264A7;
+    color: white;
+}
+
+.ac-pushButton:active {
+    background-color: #6264A7;
+    border: 2px solid #6264A7;
+    color: white;
 }
 
 .ac-pushButton-disabled {
@@ -99,59 +108,42 @@ a.ac-anchor:visited:active {
     cursor: pointer;
     font-family: "Segoe UI", sans-serif;
     font-size: 14px;
-    font-weight: 600;
     padding: 4px 10px 5px 10px;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    height: 31px;
-    border: 1px solid #EEEEEE;
-	background-color: #EEEEEE;
-	color: #666666;
+    height: 32px;
+    border: 4px solid #EDEBE9;
+    background-color: #EDEBE9;
+    color: #C8C6C4;
+    border-radius: 4px;
 }
 
-.ac-pushButton:focus {
-    border-color: #0063B1;
+@media (forced-colors: none) {
+    .ac-pushButton.expanded {
+        background-color: #6264A7;
+        border: 2px solid #6264A7;
+        color: white;
+    }
 }
 
-.ac-pushButton.style-positive {
-    background-color: #0078D7;
+@media (forced-colors: active) {
+    .ac-pushButton.expanded {
+        background-color: highlight;
+        color: highlightText;
+        forced-color-adjust: none;
+    }
+}
+
+.ac-pushButton.style-emphasis {
+    background-color: #6264A7;
+    border: 2px solid #6264A7;
     color: white;
-}
-
-.ac-pushButton.style-positive:hover, .ac-pushButton.style-positive:active {
-    background-color: #006ABC;
-}
-
-.ac-pushButton.style-destructive {
-    background-color: #E50000;
-    color: white;
-}
-
-.ac-pushButton.style-destructive:hover, .ac-pushButton.style-destructive:active {
-    background-color: #BF0000;
-}
-
-.ac-quickActionButton {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: center;
-    vertical-align: middle;
-    cursor: pointer;
-    font-family: "Calibri", sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    border: none;
-    background-color: #DDDDDD;
 }
 
 .ac-input {
-    font-family: "Calibri", sans-serif;
+    font-family: "Segoe UI", sans-serif;
     font-size: 14px;
     color: black;
 }
@@ -173,11 +165,6 @@ a.ac-anchor:visited:active {
     outline: 1px solid red;
 }
 
-.ac-input-container {
-    display: flex;
-    align-items: flex-end;
-}
-
 .ac-input.ac-textInput {
     resize: none;
 }
@@ -187,7 +174,9 @@ a.ac-anchor:visited:active {
 }
 
 .ac-input.ac-textInput, .ac-input.ac-numberInput, .ac-input.ac-dateInput, .ac-input.ac-timeInput, .ac-input.ac-multichoiceInput {
-    border: 1px solid #dddddd;
+    background-color: #F3F2F1;
+    border: 1px solid #F3F2F1;
+    border-radius: 4px;
     padding: 4px 8px 4px 8px;
     height: 31px;
 }
@@ -200,8 +189,8 @@ a.ac-anchor:visited:active {
     text-align: center;
     vertical-align: middle;
     cursor: pointer;
-    font-family: "Calibri", sans-serif;
-    font-size: 13.3px;
+    font-family: "Segoe UI", sans-serif;
+    font-size: 14px;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -242,6 +231,14 @@ a.ac-anchor:visited:active {
     border: none;
     background-color: transparent;
     height: 31px;
+}
+
+.ac-inlineActionButton-disabled.textOnly {
+    padding: 0 8px;
+}
+
+.ac-inlineActionButton-disabled.iconOnly {
+    padding: 0;
 }
 
 /* Popup menu */
@@ -353,4 +350,4 @@ a.ac-anchor:visited:active {
   
 .ac-ctrl-popup-container:focus {
     outline: 0;
-}
+}`;

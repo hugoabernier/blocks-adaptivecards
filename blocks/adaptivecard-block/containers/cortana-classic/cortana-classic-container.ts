@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 import * as Adaptive from "adaptivecards";
-import { SingleThemeHostContainer } from "../single-theme-host-container";
+import { SingleThemeHostContainer } from "../SingleThemeHostContainer";
+import { theme } from "./cortana-container";
 import * as hostConfig from "./cortana-skills-classic.json";
 
 export class CortanaClassicContainer extends SingleThemeHostContainer {
@@ -58,6 +59,10 @@ export class CortanaClassicContainer extends SingleThemeHostContainer {
 
         hostElement.classList.add("cortana-outer-frame");
         hostElement.appendChild(frame);
+
+        let styleTag = document.createElement('style');
+        styleTag.innerHTML = theme;
+        hostElement.appendChild(styleTag);
     }
 
     public getHostConfig(): Adaptive.HostConfig {

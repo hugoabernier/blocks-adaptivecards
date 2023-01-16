@@ -1,40 +1,80 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-import * as Adaptive from "adaptivecards";
-import { SingleThemeHostContainer } from "../single-theme-host-container";
-import * as hostConfig from "./federated-search.json";
-
-export class FederatedSearchContainer extends SingleThemeHostContainer {
-    constructor(name: string, styleSheet: string) {
-        super(name, styleSheet);
-
-        this.actionsRegistry.unregister("Action.Submit");
-        this.elementsRegistry.unregister("Input.Text");
-        this.elementsRegistry.unregister("Input.Date");
-        this.elementsRegistry.unregister("Input.Time");
-        this.elementsRegistry.unregister("Input.Toggle");
-        this.elementsRegistry.unregister("Input.ChoiceSet");
-        this.elementsRegistry.unregister("Input.Number");
-    }
-
-    public renderTo(hostElement: HTMLElement) {
-        this.cardHost.classList.add("fedsearch-card");
-        hostElement.appendChild(this.cardHost);
-    }
-
-    public initialize() {
-        super.initialize();
-    }
-
-    public getHostConfig(): Adaptive.HostConfig {
-        return new Adaptive.HostConfig(hostConfig);
-    }
-
-    get targetVersion(): Adaptive.Version {
-        return Adaptive.Versions.v1_4;
-    }
-
-    get enableDeviceEmulation(): boolean {
-        return true;
-    }
+export const theme = `a.ac-anchor:hover {
+  text-decoration: underline;
 }
+a.ac-anchor {
+  text-decoration: none;
+}
+a.ac-anchor:link {
+  color: inherit;
+}
+a.ac-anchor:visited {
+  color: inherit;
+  text-decoration: none;
+}
+.ac-textBlock p {
+  margin-top: 1px !important;
+}
+.ac-adaptiveCard {
+  background-color: inherit !important;
+}
+.ac-textBlock > p {
+  font-size: inherit;
+  font-family: inherit;
+  line-height: inherit;
+  font-weight: inherit;
+}
+
+.fedsearch-card {
+  border: 2px solid #f1f0ef;
+  border-top-color: #bfc6ceaf;
+  border-bottom-color: #bfc6ceaf;
+  border-radius: 4px;
+}
+
+.ac-container.ac-adaptiveCard {
+  border: none !important;
+}
+.aaf-spinner {
+  border-color: #6264a7;
+}
+.ac-pushButton {
+  background-color: inherit !important;
+  color: #6264a7;
+  border: 0px;
+  padding: 0px;
+  cursor: pointer;
+}
+.ac-choiceSetInput-expanded div {
+  margin-top: 6px;
+}
+.ac-pushButton.ac-pushButton.expanded:hover {
+  background-color: inherit !important;
+  border: 0px;
+  color: #6264a7;
+}
+
+.ac-pushButton.ac-actionSet .ac-pushButton.style-default.expandable:after {
+  content: "";
+}
+.aaf-progress-overlay {
+  background-color: inherit;
+}
+.ac-input input:checked {
+  appearance: none;
+}
+.ac-input input:checked::after {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  top: 2px;
+  position: relative;
+  content: " ";
+  display: inline-block;
+  visibility: visible;
+  border: 2px solid #6264a7;
+  background: radial-gradient(+ #6264a7 #6264a7 + 40% transparent 50% transparent);
+}
+.ac-input:focus {
+  border: 1px solid #6264a7;
+  outline: none;
+}`;

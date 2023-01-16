@@ -4,7 +4,8 @@ import * as React from 'react';
 import { ActionMenu, ActionList, Box } from '@primer/react'
 
 import "./index.css";
-import { ContainerSize, CortanaClassicContainer, CortanaContainer, FederatedSearchContainer, HostContainer, OutlookContainer, TeamsContainer, VivaConnectionsContainer, WebChatContainer, WidgetContainer } from "./containers";
+import { ColorTheme, ContainerSize, CortanaClassicContainer, CortanaContainer, FederatedSearchContainer, HostContainer, OutlookContainer, TeamsContainer, VivaConnectionsContainer, WebChatContainer, WidgetContainer } from "./containers";
+import { useEffect, useRef, useState } from "react";
 // import { IContainerHost, Theme } from "./containers/IContainerHost";
 // import { VivaConnectionHost, VivaConnectionsLightHost } from "./containers/viva-connections/VivaConnectionsLight";
 // import { DefaultHost } from "./containers/default/DefaultHost";
@@ -20,100 +21,38 @@ export interface IAdaptiveCardProviderProps {
     content: string;
 }
 
-export interface IAdaptiveCardProviderState {
-    selectedHostAppIndex: number;
-    selectedThemeIndex: number;
-}
 
-export class AdaptiveCardProvider extends React.Component<IAdaptiveCardProviderProps, IAdaptiveCardProviderState> {
+export function AdaptiveCardProvider(props: IAdaptiveCardProviderProps) {
 
-    private hostTypes = [
-        { name: 'Bot Framework WebChat', id: 'webchat', hasDark: false },
-        { name: 'Outlook Actionable Messages', id: 'outlook', hasDark: false },
-        { name: 'Microsoft Teams', id: 'teams', hasDark: true },
-        { name: 'Viva Connections', id: 'viva-connections', hasDark: true },
-        { name: 'Cortana Skills', id: 'cortana-skills', hasDark: true },
-        { name: 'Bot Framework Other Channels (Image render)', id: 'bf-image', hasDark: false },
-        { name: 'Cortana Skills (Classic)', id: 'cortana-classic', hasDark: false },
-        { name: 'Federated Search', id: 'federated-search', hasDark: false },
-        { name: 'Widgets Board', id: 'widget', hasDark: true },
+    const [selectedHostAppIndex, setSelectedHostAppIndex] = useState(0);
+    const [selectedThemeIndex, setSelectedThemeIndex] = useState(0);
+    const [selectedWidgetSizeIndex, setSelectedSizeIndex] = useState(0);
+    const [selectedDeviceIndex, setSelectedDeviceIndex] = useState(0);
+
+    const divElement = useRef<HTMLDivElement>(null);
+    const cardArea = useRef<HTMLDivElement>(null);
+    const designerHost = useRef<HTMLDivElement>();
+
+    const hostContainers: HostContainer[] = [
+        new WebChatContainer("Bot Framework WebChat", "containers/webchat/webchat-container.css"),
+        new OutlookContainer("Outlook Actionable Messages", "containers/outlook/outlook-container.css"),
+        new TeamsContainer(),
+        new VivaConnectionsContainer(),
+        new CortanaContainer(),
+        new CortanaClassicContainer("Cortana Skills (Classic)", "containers/cortana-classic/cortana-container.css"),
+        new FederatedSearchContainer("Federated Search", "containers/federated-search/federated-search-container.css"),
+        new WidgetContainer(Object.values(ContainerSize)[selectedWidgetSizeIndex])
     ];
 
-    private themes = [ 
-        { name: 'Light', isDark: false },
-        { name: 'Dark', isDark: true }
-    ];
-
-    /**
-     *
-     */
-    constructor(props: IAdaptiveCardProviderProps) {
-        super(props);
-        this.state = { selectedHostAppIndex: 0, selectedThemeIndex: 0 };
-    }
-
-    public render(): React.ReactElement<IAdaptiveCardProviderProps> {
-        const { selectedHostAppIndex, selectedThemeIndex } = this.state;
-
-        const hostContainers: HostContainer[] = [
-            new WebChatContainer("Bot Framework WebChat", "containers/webchat/webchat-container.css"),
-            new OutlookContainer("Outlook Actionable Messages", "containers/outlook/outlook-container.css"),
-            new TeamsContainer(),
-            new VivaConnectionsContainer(),
-            new CortanaContainer(),
-            new CortanaClassicContainer("Cortana Skills (Classic)", "containers/cortana-classic/cortana-container.css"),
-            new FederatedSearchContainer("Federated Search", "containers/federated-search/federated-search-container.css"),
-            new WidgetContainer(ContainerSize.Large)
-        ];
-
-        const selectedHost = hostContainers[selectedHostAppIndex];
-        const selectedTheme = this.themes[selectedThemeIndex];
-
-
-        // var container: IContainerHost = new DefaultHost();
-        
-        // switch (selectedHost.id) {
-        //     case 'webchat':
-        //         container = new WebChatHost();
-        //         break;
-        //     case 'outlook':
-        //         container = new OutlookHost();
-        //         break;
-        //     case 'teams':
-        //         container = new TeamsHost();
-        //         break;
-        //     case 'viva-connections':
-        //         if (selectedTheme.isDark) {
-        //             container = new VivaConnectionsDarkHost();
-        //         } else {
-        //             container = new VivaConnectionsLightHost();
-        //         }
-
-        //         break;
-        //     case 'cortana-skills':
-        //         container = new CortanaHost();
-        //         break;
-        //     // case 'bf-image':
-        //     //     hostConfig = null;
-        //     //     break;
-        //     case 'cortana-classic':
-        //         container = new CortanaClassicHost();
-        //         break;
-        //     // case 'federated-search':
-        //     //     hostConfig = null;
-        //     //     break;
-        //     case 'widget':
-        //         container = new WidgetHost();
-        //         break;
-        //     // default:
-        //     //     hostConfig = null;
-        //     //     break;
-        // }
-
-
-
+    const selectedHost = hostContainers[selectedHostAppIndex];
+    const renderAdaptiveCard = async () => {
         // Create an AdaptiveCard instance
         var adaptiveCard = new AdaptiveCards.AdaptiveCard();
+        selectedHost.colorTheme = selectedThemeIndex == 0 ? ColorTheme.Light : ColorTheme.Dark;
+
+        if (selectedHost.constructor.name.endsWith("WidgetContainer")) {
+            (selectedHost as WidgetContainer).containerSize = Object.values(ContainerSize)[selectedWidgetSizeIndex];
+        }
 
         // Set its hostConfig property unless you want to use the default Host Config
         // Host Config defines the style and behavior of a card
@@ -121,20 +60,65 @@ export class AdaptiveCardProvider extends React.Component<IAdaptiveCardProviderP
 
         // Set the adaptive card's event handlers. onExecuteAction is invoked
         // whenever an action is clicked in the card
-        adaptiveCard.onExecuteAction = function (_action) { alert("Ow!"); }
+        //adaptiveCard.onExecuteAction = function (_action) { alert("Ow!"); }
 
         // Parse the card payload
-        adaptiveCard.parse(JSON.parse(this.props.content));
+        adaptiveCard.parse(JSON.parse(props.content));
 
-        const hostDiv:HTMLDivElement = document.createElement("div");
-        selectedHost.renderTo(hostDiv);
+        if (divElement.current) {
+            while (divElement.current.firstChild) {
+                divElement.current.removeChild(divElement.current.firstChild);
+            }
+            selectedHost.renderTo(divElement.current);
+            adaptiveCard.render(selectedHost.cardHost);
 
-        // Render the card to an HTML element:
-        const cardData = adaptiveCard.render(selectedHost.cardHost)
 
-        return (
-            <Box >
-                <Box p={1} display="flex" bg="canvas.subtle" borderColor="border.default" borderBottomWidth={1} borderBottomStyle="solid">
+            if (cardArea.current) {
+                cardArea.current.style.backgroundColor = selectedHost.getBackgroundColor();
+            }
+        }
+
+
+
+        if (designerHost.current) {
+            let deviceIndex: number = selectedDeviceIndex;
+            let maxWidth: number = 0;
+            if (!selectedHost.enableDeviceEmulation) {
+                deviceIndex = 0;
+            }
+
+            switch (deviceIndex) {
+                case 1:
+                    maxWidth = 320;
+                    break;
+                case 2:
+                    maxWidth = 414;
+                    break;
+                case 3:
+                    maxWidth = 768;
+                    break;
+                case 4:
+                    maxWidth = 1024;
+                    break;
+                default:
+                    maxWidth = 0;
+                    break;
+            }
+
+            if (maxWidth > 0) {
+                designerHost.current.style.maxWidth = `${maxWidth}px`;
+            } else {
+                designerHost.current.style.maxWidth = "";
+            }
+        }
+    }
+    useEffect(() => {
+        renderAdaptiveCard();
+    }, [selectedHostAppIndex, selectedThemeIndex, selectedWidgetSizeIndex, selectedDeviceIndex]);
+
+    return (
+        <Box >
+            <Box p={1} display="flex" bg="canvas.subtle" borderColor="border.default" borderBottomWidth={1} borderBottomStyle="solid">
                 <Box p={1} >
                     <ActionMenu>
 
@@ -142,16 +126,10 @@ export class AdaptiveCardProvider extends React.Component<IAdaptiveCardProviderP
                             Host app: {selectedHost.name}
                         </ActionMenu.Button>
 
-
-
                         <ActionMenu.Overlay>
                             <ActionList selectionVariant="single">
                                 {hostContainers.map((type, index) => (
-                                    <ActionList.Item key={index} selected={index === selectedHostAppIndex} onSelect={() => this.setState({ 
-                                        selectedThemeIndex: type.supportsMultipleThemes ? this.state.selectedThemeIndex : 0,
-                                        selectedHostAppIndex: index
-                                    }
-                                        )}>
+                                    <ActionList.Item key={index} selected={index === selectedHostAppIndex} onSelect={() => setSelectedHostAppIndex(index)}>
                                         {type.name}
                                     </ActionList.Item>
                                 ))}
@@ -162,42 +140,77 @@ export class AdaptiveCardProvider extends React.Component<IAdaptiveCardProviderP
                 <Box p={1} >
                     <ActionMenu>
                         <ActionMenu.Button aria-label="Select theme" disabled={!selectedHost.supportsMultipleThemes}>
-                            Theme: {selectedTheme.name}
+                            Theme: {HostContainer.supportedContainerThemes[selectedThemeIndex]}
                         </ActionMenu.Button>
-
-
 
                         <ActionMenu.Overlay>
                             <ActionList selectionVariant="single">
-                                {this.themes.map((type, index) => (
-                                    <ActionList.Item key={index} selected={index === selectedThemeIndex} onSelect={() => this.setState({ selectedThemeIndex: index })}>
-                                        {type.name}
+                                {HostContainer.supportedContainerThemes.map((themeName, index) => (
+                                    <ActionList.Item key={index} selected={index === selectedThemeIndex} onSelect={() => setSelectedThemeIndex(index)}>
+                                        {themeName}
                                     </ActionList.Item>
                                 ))}
                             </ActionList>
                         </ActionMenu.Overlay>
                     </ActionMenu>
                 </Box>
-                </Box>
 
-                <Box >
-                    <div dangerouslySetInnerHTML={{ __html: hostDiv }}/>
-                    {/* <div id="cardArea" className="acd-designer-cardArea" role="region" aria-label="card preview" style={{backgroundColor: container.cardAreaBackgroundColor}}>
+                {selectedHost.constructor.name.endsWith("WidgetContainer") &&
+
+                    <Box p={1} >
+                        <ActionMenu>
+                            <ActionMenu.Button aria-label="Select container size" disabled={!selectedHost.supportsMultipleSizes}>
+                                Container size: {WidgetContainer.supportedContainerSizes[selectedWidgetSizeIndex]}
+                            </ActionMenu.Button>
 
 
 
-                        <div style={{ flex: '1 1 100%', overflow: 'auto' }}>
-                            <div className="ac-designer-host">
-                                <div className="host-container">
-                                    <div className={container.containerClass} dangerouslySetInnerHTML={{ __html: cardData ? cardData?.innerHTML : "No card" }}>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> */}
-                </Box>
+                            <ActionMenu.Overlay>
+                            <ActionList selectionVariant="single">
+                                {WidgetContainer.supportedContainerSizes.map((sizeName, index) => (
+                                    <ActionList.Item key={index} selected={index === selectedWidgetSizeIndex} onSelect={() => setSelectedSizeIndex(index)}>
+                                        {sizeName}
+                                    </ActionList.Item>
+                                ))}
+                            </ActionList>
+                        </ActionMenu.Overlay>
+                        </ActionMenu>
+                    </Box>
+                }
+
+                {selectedHost.enableDeviceEmulation &&
+
+                    <Box p={1} >
+                        <ActionMenu>
+                            <ActionMenu.Button aria-label="Select device emulation">
+                                Emulate device: {HostContainer.supportedDeviceEmulations[selectedDeviceIndex]}
+                            </ActionMenu.Button>
+
+                            <ActionMenu.Overlay>
+                                <ActionList selectionVariant="single">
+                                    {HostContainer.supportedDeviceEmulations.map((deviceName, index) => (
+                                        <ActionList.Item key={index} selected={index === selectedDeviceIndex} onSelect={() => setSelectedDeviceIndex(index)}>
+                                            {deviceName}
+                                        </ActionList.Item>
+                                    ))}
+                                </ActionList>
+                            </ActionMenu.Overlay>
+                        </ActionMenu>
+                    </Box>
+                }
             </Box>
-        );
-    }
+
+
+            <Box>
+                <div className="acd-designer-cardArea" ref={cardArea}>
+                    <div style={{ flex: "1 1 100%", overflow: "auto" }}>
+                        <div id="designerHost" className="acd-designer-host" ref={designerHost}>
+                            <div ref={divElement} />
+                        </div>
+                    </div>
+                </div>
+            </Box>
+        </Box>
+    );
 }
 

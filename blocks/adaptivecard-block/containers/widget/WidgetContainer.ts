@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 import * as Adaptive from "adaptivecards";
-import { MultiThemeHostContainer } from "../multi-theme-host-container";
+import { ColorTheme, MultiThemeHostContainer } from "../MultiThemeHostContainer";
 import * as hostConfigLight from "./widget-light.json";
 import * as hostConfigDark from "./widget-dark.json";
+import { darkTheme } from "./widget-container-dark";
+import { lightTheme } from "./widget-container-light";
 
 export enum ContainerSize {
     Small = "Small",
@@ -66,6 +68,15 @@ export class WidgetContainer extends MultiThemeHostContainer {
 
         this._outerFrame.appendChild(innerFrame);
         hostElement.appendChild(this._outerFrame);
+
+        let styleTag = document.createElement('style');
+        if (this.colorTheme == ColorTheme.Dark) {
+            styleTag.innerHTML = darkTheme;
+        } else {
+            styleTag.innerHTML = lightTheme;
+        }
+
+        hostElement.appendChild(styleTag);
     }
 
     public requiresOverflowStyling(): boolean {

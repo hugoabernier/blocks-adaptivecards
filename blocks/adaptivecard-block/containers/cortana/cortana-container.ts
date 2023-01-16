@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 import * as Adaptive from "adaptivecards";
-import { MultiThemeHostContainer } from "../multi-theme-host-container";
+import { ColorTheme, MultiThemeHostContainer } from "../MultiThemeHostContainer";
 import * as hostConfigLight from "./cortana-skills-light.json";
 import * as hostConfigDark from "./cortana-skills-dark.json";
+import { darkTheme } from "./cortana-container-dark";
+import { lightTheme } from "./cortana-container-light";
 
 export class CortanaContainer extends MultiThemeHostContainer {
     constructor() {
@@ -23,6 +25,15 @@ export class CortanaContainer extends MultiThemeHostContainer {
         frame.appendChild(this.cardHost);
 
         hostElement.appendChild(frame);
+
+        let styleTag = document.createElement('style');
+        if (this.colorTheme == ColorTheme.Dark) {
+            styleTag.innerHTML = darkTheme;
+        } else {
+            styleTag.innerHTML = lightTheme;
+        }
+
+        hostElement.appendChild(styleTag);
     }
 
     get targetVersion(): Adaptive.Version {

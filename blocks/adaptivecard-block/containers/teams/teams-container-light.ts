@@ -1,96 +1,50 @@
-.cortana-outer-frame {
+export const lightTheme = `.teams-frame {
     display: flex;
 }
 
-.cortana-frame {
-    display: flex;
-    background-color: black;
-    box-shadow: 0 0 15px -5px rgba(0, 0, 0, 0.4);
+.teams-botNameAndTime {
+    color: black;
+    margin-bottom: 12px;
 }
 
-.cortana-leftside {
-    display: flex;
-    flex-direction: column;
-    flex: 0 0 auto;
-    background-color: #002D4F;
+.teams-hexagon-outer {
+    overflow: hidden;
+    transform: rotate(120deg);
+    flex: 0 0 50px;
+    height: 40px;
+    margin-right: 6px;
 }
 
-.cortana-rightside {
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 100%;
-}
-
-.cortana-topleft {
-    background: url('cortana-topleft.png');
-    background-size: cover;
-    width: 48px;
-    flex: 0 0 193px;
-}
-
-.cortana-middleleft {
-    flex: 1 1 100%;
-}
-
-.cortana-bottomleft {
-    background: url('cortana-bottomleft.png');
-    background-size: cover;
-    width: 48px;
-    flex: 0 0 126px;
-}
-
-.cortana-header {
-    background: url('cortana-face.png');
-    background-size: contain;
-    background-position: center;
-    background-color: black;
-    background-repeat: no-repeat;
-    margin: 20px 0px;
-    height: 52px;
+.teams-hexagon-inner {
+    overflow: hidden;
     width: 100%;
+    height: 100%;
+    transform: rotate(-60deg);
 }
 
-.cortana-card {
-    width: 344px;
+.teams-bot-logo {
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAMAAABOo35HAAAAolBMVEUAeNf///8Dedfs9Pz9/f75/P4vkN6Lwezx+PwWg9pLn+P1+f0rjt41lN8Nftnj8Prf7vrW6fiaye8RgdkHe9jJ4vbO5fcmjN0iitwahtvn8vuVxu58uup1tuk/meEeh9zS5/hDm+Hu9vzb6/mv1PKgzfA6l+Cq0vFhq+ZcqOVSo+TD3/W11/OQxO1rsOdlredXpuSlz/GCvOtvs+i52fSGv+wsjfdCAAAFzklEQVR42uzQMY7CMBAAQC9IVIgCAs21oBTQIPH/t12orBSO7OMa4pknTAIAAAAAAAAAAAAAAAAAAAAAAAAAAAB6NIy79JndOKQ+DK/Y7j672sarj63pKgpb9VfRx9bwiChsNVxNHuvfel8Vthqu+th6XxW2Gq762MpXeav9qo+tfJW32q/62NpcI8tb7VfZdZPWKV+1b+WrPrbyVftWvupjazNGFLfar7JxfVuFq2lrn+rsp6s+topXcT+kOod79LG1fGVrdvVsumrfeq5na/nKVv2VrdnVLQrOh9TqcI6C2xq2lq9s1V/Zmmm4+nwrfbdjFFxO6a9Olyg4pm+2eGWr/spW/ZWtmZ+Kq//f+mXvXpdSh6EwDH+hirRysI4ICCJFZBA5jeL939oe/zCDO6s0NKFfbN8LAHycaTmsJEP4mGg1EazMtCZ/SUu2CmGj8A9prXNY5dVaw69SrSqtbFZxCHuF8V/QuslplV/rBr6UalVpFWQFDDzX+lZCrwPYb/CqhL7B30mrSuvQp4GVa61PcJfJqtJKt7p7gbte7nzUGhlaudcagbXsVpWWiVXZtcysyq31LFr1cYn6otYz2BKtOn1cpn7HF63irfzRYrDyReuLwgroiVpfYEm26uFEpdMSrZ56uHS9J26tDZFVmtYGxcdlxa21uZKsmiimpqR1VbTWls4qTWuLApOtgiaKqxkwanFacWotSK3StBYoJtmqjqKrk2kxW7FpvVNbpWm9wyC3VlMOK6A+ZdGSrVpgqUWi5YMVi9ZOsmqYWdV6SdQKka2wFSW9mplWQ9LaQYrUav42VT89Prdxqvbzo/pp+jb3S2t3bcMqnKlDwQLpLQJ1aBba0Lq+jNZStJoje/XO8Th2DXK14zHxTh3Zm4taS/wfp1U/UMfdGyxrCfqeaEVWrB5i9bstpLbqd/GDFa0Ibms2RKucP50FbehrB8JPW7m1Gk04rav03Y5h0ENgMJMwUhrZBxg0vlX6unBZJFrlf5gJ9E2UpghWtCI47F62yr8I6gW6XuTFTPm17uGwVytW2Ctd+kcZK117WNF6hcNutVYJDJsoXTvo2ildjzAs0b90OKwh34Lz3yaW0LWUL8353/I04LBYWdGaKV0t6GopXTMrViqGw+6VFa2R9kHa0NXW/pmj3FbuL/CJErQSmNRUmlbQt1KamlasVAKXfSh9t0nui9YSyHzR6ppe3PV9wGm9qRWtseaFm/yDxlaspj24Lbm2ojUUPqdl+zw6tGJ1ncB1kRWt2l64RWR5yn3NilUEOfdaYxOtoxtrMEda8+DoFmZiNTa04tRCFB9e9zBEeuHw8JxxBI+srGnVknW3M41XmwFON9is4mmnu05qflmlazHFYJX+RTxP5379XkYtFisftHis0rQ4xh1aRFbAjlrLzk/RdCMPWfNuJMQXLT4r3jEtjsEsP7Q4rThHS3mGSfmHlpnGlNnH4bkG4Lm1uK24lvDwLdrhXRzGuByMVcsHK5YFraxLWH+3UcVr8S6O5luEz7zsnk3LJ6tcG4eUYKsQpi1p+Deh4dnsqO+d1VnbaJVo4ywOLT+tMmpVVudtKlmybSTzbVdatg1KzbQqq8xalZWJVmVlsC38ADYbeLkR/BkHDpT4iAEDrcrK9JCUkh+LYqBVWRkd7FQdfGWgVVmZaFVWJsccVgcb/mvvjm0UCIIoiH6t0x7OLRmAwCX/5E5Y6zDStHDQznshVALVGWhaZnZqadWZ/tr8dnbSBtKdUbk1eWeBb3rfqaVVp5ZW87Wuf51W1xVaJfdhrUtmXYat7jmVbVxrz5x93GrLuQxrVWbVKq2GtSrzapVWyfaaaNWv9Tpjq4+1Kj21SqsPtSpdtUqrZHtMtOrUepy31VHraNVWq7Q6ah2t2mqVVsl2G7Tq17qdvdW71qDVvFql1bvWoNW8WqVV3rUq36lVWiX7M9967gEAAAAAAAAAAAAAAAAAAAAAAAAAAOC3/QPdan8SQq7+dgAAAABJRU5ErkJggg==");
+    background-size: 50px 50px;
+    visibility: visible;
+    transform: rotate(-60deg);
 }
 
-.cortana-searchbox {
-    flex: 0 0 40px;
+.teams-inner-frame {
     background-color: white;
-    display: flex;
+    border-radius: 4px;
+    padding: 24px;
+    min-width: 400px;
+    max-width: 726px;
 }
 
-.cortana-searchbox-magnifyingglass {
-    background: url('cortana-magnifyingglass.png');
-    background-size: cover;
-    height: 40px;
-    flex: 0 0 40px;
-}
-
-.cortana-searchbox-middle {
-    flex: 1 1 100%;
-    background-color: #F2F4F6;
-}
-
-.cortana-searchbox-microphone {
-    background: url('cortana-microphone.png');
-    background-size: cover;
-    height: 40px;
-    flex: 0 0 40px;
-}
-
-.cortanaFrame {
-    background: url('cortana-frame.png');
-    width: 393px;
-    height: 595px;
-    border: solid 1px black;
-}
-
-.cardWrapper {
-    padding-left: 50px;
-    padding-top: 80px;
-    overflow-y: auto;
-    max-height: 555px;
+.teams-card {
+    border: 2px solid #F1F0EF;
+    border-top-color: #ACCEEF;
+    border-radius: 4px;
 }
 
 .ac-media-poster {}
@@ -119,15 +73,16 @@
     background-color: white;
 }
 
-.ac-input, .ac-input.ac-textInput.ac-multiline {
-    box-sizing: border-box;
-    margin-bottom: 0;
-    padding: 4px 8px;
-    font-size: 15px;
-}
-
 .ac-image.ac-selectable {
     cursor: pointer;
+}
+
+.ac-image.ac-selectable:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.ac-image.ac-selectable:active {
+    background-color: rgba(0, 0, 0, 0.15);
 }
 
 a.ac-anchor {
@@ -135,19 +90,19 @@ a.ac-anchor {
 }
 
 a.ac-anchor:link {
-    color: #005A9E;
+    color: #6264A7;
 }
 
 a.ac-anchor:visited {
-    color: #005A9E;
+    color: #6264A7;
 }
 
 a.ac-anchor:link:active {
-    color: #004D84;
+    color: #6264A7;
 }
 
 a.ac-anchor:visited:active {
-    color: #004D84;
+    color: #6264A7;
 }
 
 .ac-container.ac-selectable, .ac-columnSet.ac-selectable {
@@ -169,15 +124,29 @@ a.ac-anchor:visited:active {
     vertical-align: middle;
     cursor: pointer;
     font-family: "Segoe UI", sans-serif;
-    font-size: 15px;
+    font-size: 14px;
+    padding: 4px 10px 5px 10px;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    height: 31px;
-    background-color: rgba(255, 255, 255, 0.2);
+    height: 32px;
+    background-color: white;
+    color: #6264A7;
+    border: 2px solid #BFC0DA;
+    border-radius: 4px;
+}
+
+.ac-pushButton:hover {
+    background-color: #6264A7;
+    border: 2px solid #6264A7;
     color: white;
-    border: 2px solid transparent;
+}
+
+.ac-pushButton:active {
+    background-color: #6264A7;
+    border: 2px solid #6264A7;
+    color: white;
 }
 
 .ac-pushButton-disabled {
@@ -195,23 +164,37 @@ a.ac-anchor:visited:active {
     user-select: none;
     height: 32px;
     border: 4px solid #EDEBE9;
-	background-color: #EDEBE9;
-	color: #C8C6C4;
+    background-color: #EDEBE9;
+    color: #C8C6C4;
     border-radius: 4px;
 }
 
-.ac-pushButton:hover {
-    border: 2px solid rgba(255, 255, 255, 0.6);
+@media (forced-colors: none) {
+    .ac-pushButton.expanded {
+        background-color: #6264A7;
+        border: 2px solid #6264A7;
+        color: white;
+    }
 }
 
-.ac-pushButton:active {
-    background-color: rgba(255, 255, 255, 0.4);
+@media (forced-colors: active) {
+    .ac-pushButton.expanded {
+        background-color: highlight;
+        color: highlightText;
+        forced-color-adjust: none;
+    }
+}
+
+.ac-pushButton.style-emphasis {
+    background-color: #6264A7;
+    border: 2px solid #6264A7;
+    color: white;
 }
 
 .ac-input {
     font-family: "Segoe UI", sans-serif;
     font-size: 14px;
-    color: white;
+    color: black;
 }
 
 .ac-input.ac-input-required {
@@ -240,15 +223,11 @@ a.ac-anchor:visited:active {
 }
 
 .ac-input.ac-textInput, .ac-input.ac-numberInput, .ac-input.ac-dateInput, .ac-input.ac-timeInput, .ac-input.ac-multichoiceInput {
-    border: 2px solid #797979;
+    background-color: #F3F2F1;
+    border: 1px solid #F3F2F1;
+    border-radius: 4px;
     padding: 4px 8px 4px 8px;
-    background-color: #0C0C0C;
     height: 31px;
-}
-
-.ac-input.ac-textInput:hover, .ac-input.ac-numberInput:hover, .ac-input.ac-dateInput:hover, .ac-input.ac-timeInput:hover, .ac-input.ac-multichoiceInput:hover {
-    border: 2px solid #A5A5A5;
-    background-color: #0C0C0C;
 }
 
 /* ac-inlineActionButton should set height to the same as ac-input.ac-textInput */
@@ -301,6 +280,7 @@ a.ac-anchor:visited:active {
     border: none;
     background-color: transparent;
     height: 31px;
+    color: #999999;
 }
 
 .ac-inlineActionButton-disabled.textOnly {
@@ -420,4 +400,4 @@ a.ac-anchor:visited:active {
   
 .ac-ctrl-popup-container:focus {
     outline: 0;
-}
+}`;

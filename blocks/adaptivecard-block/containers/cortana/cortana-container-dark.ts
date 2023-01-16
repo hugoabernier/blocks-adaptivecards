@@ -1,53 +1,4 @@
-.teams-frame {
-    display: flex;
-}
-
-.teams-botNameAndTime {
-    color: black;
-    margin-bottom: 12px;
-}
-
-.teams-hexagon-outer {
-    overflow: hidden;
-    transform: rotate(120deg);
-    flex: 0 0 50px;
-    height: 40px;
-    margin-right: 6px;
-}
-
-.teams-hexagon-inner {
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
-    transform: rotate(-60deg);
-}
-
-.teams-bot-logo {
-    width: 100%;
-    height: 100%;
-    background-repeat: no-repeat;
-    background-position: 50%;
-    background-image: url(bot-framework.png);
-    background-size: 50px 50px;
-    visibility: visible;
-    transform: rotate(-60deg);
-}
-
-.teams-inner-frame {
-    background-color: white;
-    border-radius: 4px;
-    padding: 24px;
-    min-width: 400px;
-    max-width: 726px;
-}
-
-.teams-card {
-    border: 2px solid #F1F0EF;
-    border-top-color: #ACCEEF;
-    border-radius: 4px;
-}
-
-.ac-media-poster {}
+export const darkTheme = `.ac-media-poster {}
 
 .ac-media-poster.empty {
     height: 200px;
@@ -130,23 +81,23 @@ a.ac-anchor:visited:active {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    height: 32px;
-    background-color: white;
-    color: #6264A7;
-    border: 2px solid #BFC0DA;
+    height: 34px;
+    background-color: transparent;
+    color: white;
+    border: 2px solid #6165A4;
     border-radius: 4px;
 }
 
 .ac-pushButton:hover {
-    background-color: #6264A7;
-    border: 2px solid #6264A7;
-    color: white;
+    background-color: #6165A4;
+    border: 2px solid #A7A8DA;
+    color: black;
 }
 
 .ac-pushButton:active {
-    background-color: #6264A7;
-    border: 2px solid #6264A7;
-    color: white;
+    background-color: #6165A4;
+    border: 2px solid #A7A8DA;
+    color: black;
 }
 
 .ac-pushButton-disabled {
@@ -162,18 +113,18 @@ a.ac-anchor:visited:active {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    height: 32px;
-    border: 4px solid #EDEBE9;
-    background-color: #EDEBE9;
-    color: #C8C6C4;
+    height: 34px;
+    border: 4px solid #3D3D3D;
+    background-color: #3D3D3D;
+    color: #666666;
     border-radius: 4px;
 }
 
 @media (forced-colors: none) {
     .ac-pushButton.expanded {
-        background-color: #6264A7;
-        border: 2px solid #6264A7;
-        color: white;
+        background-color: #6165A4;
+        border: 2px solid #A7A8DA;
+        color: black;
     }
 }
 
@@ -194,7 +145,7 @@ a.ac-anchor:visited:active {
 .ac-input {
     font-family: "Segoe UI", sans-serif;
     font-size: 14px;
-    color: black;
+    color: #EEEEEE;
 }
 
 .ac-input.ac-input-required {
@@ -223,8 +174,8 @@ a.ac-anchor:visited:active {
 }
 
 .ac-input.ac-textInput, .ac-input.ac-numberInput, .ac-input.ac-dateInput, .ac-input.ac-timeInput, .ac-input.ac-multichoiceInput {
-    background-color: #F3F2F1;
-    border: 1px solid #F3F2F1;
+    background-color: #201E1F;
+    border: 1px solid #201E1F;
     border-radius: 4px;
     padding: 4px 8px 4px 8px;
     height: 31px;
@@ -280,7 +231,6 @@ a.ac-anchor:visited:active {
     border: none;
     background-color: transparent;
     height: 31px;
-    color: #999999;
 }
 
 .ac-inlineActionButton-disabled.textOnly {
@@ -400,4 +350,4 @@ a.ac-anchor:visited:active {
   
 .ac-ctrl-popup-container:focus {
     outline: 0;
-}
+}`;

@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 import * as Adaptive from "adaptivecards";
-import { MultiThemeHostContainer } from "../multi-theme-host-container";
+import { ColorTheme, MultiThemeHostContainer } from "../MultiThemeHostContainer";
 import * as hostConfigLight from "./microsoft-teams-light.json";
 import * as hostConfigDark from "./microsoft-teams-dark.json";
+import { darkTheme } from "./teams-container-dark";
+import { lightTheme } from "./teams-container-light";
 
 export class TeamsContainer extends MultiThemeHostContainer {
     constructor() {
@@ -51,6 +53,15 @@ export class TeamsContainer extends MultiThemeHostContainer {
         outerFrame.appendChild(innerFrame);
 
         hostElement.appendChild(outerFrame);
+
+        let styleTag = document.createElement('style');
+        if (this.colorTheme == ColorTheme.Dark) {
+            styleTag.innerHTML = darkTheme;
+        } else {
+            styleTag.innerHTML = lightTheme;
+        }
+
+        hostElement.appendChild(styleTag);
     }
 
     get targetVersion(): Adaptive.Version {

@@ -1,5 +1,5 @@
 import * as Adaptive from "adaptivecards";
-import { HostContainer } from "./host-container";
+import { HostContainer } from "./HostContainer";
 
 export enum ColorTheme {
     Light = "Light",
@@ -32,7 +32,7 @@ export abstract class MultiThemeHostContainer extends HostContainer {
     }
 
     public getCurrentStyleSheet(): string {
-        return `containers/${this._cssFileName}-${this._colorTheme.toLowerCase()}.css`;
+        return `./containers/${this._cssFileName}-${this._colorTheme.toLowerCase()}.css`;
     }
 
     public getHostConfig(): Adaptive.HostConfig {
@@ -47,6 +47,10 @@ export abstract class MultiThemeHostContainer extends HostContainer {
 
     set colorTheme(value: ColorTheme) {
         this._colorTheme = value;
+    }
+
+    get colorTheme(): ColorTheme {
+        return this._colorTheme;
     }
 
     get supportsMultipleThemes(): boolean {
