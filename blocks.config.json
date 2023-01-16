@@ -3,7 +3,7 @@
     "type": "file",
     "id": "adaptivecard-block",
     "title": "Adaptive Card Viewer",
-    "description": "Previews Adaptive Card JSON files",
+    "description": "Preview Adaptive Card files on different hosts, themes, and device emulations",
     "entry": "blocks/adaptivecard-block/index.tsx",
     "matches": ["*.json"],
     "example_path": "https://github.com/microsoft/AdaptiveCards/blob/main/samples/v1.6/Elements/Carousel.json"

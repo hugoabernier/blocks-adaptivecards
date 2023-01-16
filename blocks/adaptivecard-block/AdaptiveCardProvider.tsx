@@ -117,8 +117,8 @@ export function AdaptiveCardProvider(props: IAdaptiveCardProviderProps) {
     }, [selectedHostAppIndex, selectedThemeIndex, selectedWidgetSizeIndex, selectedDeviceIndex]);
 
     return (
-        <Box >
-            <Box p={1} display="flex" bg="canvas.subtle" borderColor="border.default" borderBottomWidth={1} borderBottomStyle="solid">
+        <Box padding={"8px"} >
+            <Box p={1} display="flex" bg="canvas.subtle" borderColor="border.default" borderWidth={1} borderStyle="solid">
                 <Box p={1} >
                     <ActionMenu>
 
@@ -139,7 +139,7 @@ export function AdaptiveCardProvider(props: IAdaptiveCardProviderProps) {
                 </Box>
                 <Box p={1} >
                     <ActionMenu>
-                        <ActionMenu.Button aria-label="Select theme" disabled={!selectedHost.supportsMultipleThemes}>
+                        <ActionMenu.Button aria-label="Select theme" disabled={!selectedHost.supportsMultipleThemes} title={selectedHost.supportsMultipleThemes ? "Select a theme" : "This host does not support themes"}>
                             Theme: {HostContainer.supportedContainerThemes[selectedThemeIndex]}
                         </ActionMenu.Button>
 
@@ -178,11 +178,10 @@ export function AdaptiveCardProvider(props: IAdaptiveCardProviderProps) {
                     </Box>
                 }
 
-                {selectedHost.enableDeviceEmulation &&
 
                     <Box p={1} >
                         <ActionMenu>
-                            <ActionMenu.Button aria-label="Select device emulation">
+                        <ActionMenu.Button aria-label="Select device emulation" disabled={!selectedHost.enableDeviceEmulation} title={selectedHost.enableDeviceEmulation ? "Select a device to emulate": "This host does not support device emulation"}>
                                 Emulate device: {HostContainer.supportedDeviceEmulations[selectedDeviceIndex]}
                             </ActionMenu.Button>
 
@@ -197,11 +196,11 @@ export function AdaptiveCardProvider(props: IAdaptiveCardProviderProps) {
                             </ActionMenu.Overlay>
                         </ActionMenu>
                     </Box>
-                }
+
             </Box>
 
 
-            <Box>
+            <Box borderColor="border.default" borderWidth={1} borderStyle="solid" borderTopStyle="none">
                 <div className="acd-designer-cardArea" ref={cardArea}>
                     <div style={{ flex: "1 1 100%", overflow: "auto" }}>
                         <div id="designerHost" className="acd-designer-host" ref={designerHost}>

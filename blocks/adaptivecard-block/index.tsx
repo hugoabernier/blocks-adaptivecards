@@ -10,15 +10,8 @@ export default function (props: FileBlockProps) {
   const { context, content, metadata, onUpdateMetadata } = props;
   
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-      }}
-    >
-
+    <div className="overflow-y-auto w-full flex-1">
       <AdaptiveCardProvider content={content} />
     </div>
-
   );
 }
