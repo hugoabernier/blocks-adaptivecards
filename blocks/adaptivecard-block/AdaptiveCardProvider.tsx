@@ -48,6 +48,14 @@ export function AdaptiveCardProvider(props: IAdaptiveCardProviderProps) {
         new WidgetContainer(Object.values(ContainerSize)[selectedWidgetSizeIndex])
     ];
 
+    const md = new markdownit({
+        breaks: true,
+        html: false,
+        linkify: true,
+        typographer: true,
+        xhtmlOut: true
+    });
+
     const selectedHost = hostContainers[selectedHostAppIndex];
     const renderAdaptiveCard = async () => {
         // Create an AdaptiveCard instance
@@ -65,7 +73,7 @@ export function AdaptiveCardProvider(props: IAdaptiveCardProviderProps) {
 
         // Process markdown and purify HTML
         AdaptiveCard.onProcessMarkdown = (text: string, result: IMarkdownProcessingResult) => {
-            result.outputHtml = DOMPurify.sanitize(new markdownit().render(text));
+            result.outputHtml = DOMPurify.sanitize(md.render(text));
             result.didProcess = true;
         };
 
