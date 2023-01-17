@@ -21,7 +21,7 @@ export class VivaConnectionsContainer extends MultiThemeHostContainer {
         );
     }
 
-    public renderTo(hostElement: HTMLElement) {
+    public renderTo(hostElement: HTMLElement): void {
         this.cardHost.classList.add("vivaConnectionsContainer");
 
         let vcContainer = document.createElement("div");

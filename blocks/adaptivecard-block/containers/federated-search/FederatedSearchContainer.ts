@@ -18,7 +18,7 @@ export class FederatedSearchContainer extends SingleThemeHostContainer {
         this.elementsRegistry.unregister("Input.Number");
     }
 
-    public renderTo(hostElement: HTMLElement) {
+    public renderTo(hostElement: HTMLElement): void {
         this.cardHost.classList.add("fedsearch-card");
         hostElement.appendChild(this.cardHost);
 

@@ -36,7 +36,7 @@ export class WidgetContainer extends MultiThemeHostContainer {
         Adaptive.GlobalSettings.removePaddingFromContainersWithBackgroundImage = true;
     }
 
-    public renderTo(hostElement: HTMLElement) {
+    public renderTo(hostElement: HTMLElement): void {
         this.cardHost.classList.remove(
             "widget-small-card",
             "widget-medium-card",

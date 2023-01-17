@@ -4,8 +4,12 @@ import * as React from 'react';
 import { ActionMenu, ActionList, Box } from '@primer/react'
 
 import "./index.css";
-import { ColorTheme, ContainerSize, CortanaClassicContainer, CortanaContainer, FederatedSearchContainer, HostContainer, OutlookContainer, TeamsContainer, VivaConnectionsContainer, WebChatContainer, WidgetContainer } from "./containers";
+import { ColorTheme, ContainerSize, CortanaClassicContainer, CortanaContainer, DeviceSize, FederatedSearchContainer, HostContainer, OutlookContainer, TeamsContainer, VivaConnectionsContainer, WebChatContainer, WidgetContainer } from "./containers";
 import { useEffect, useRef, useState } from "react";
+import { AdaptiveCard, IMarkdownProcessingResult } from "adaptivecards";
+import markdownit from "markdown-it";
+import DOMPurify from "dompurify";
+
 // import { IContainerHost, Theme } from "./containers/IContainerHost";
 // import { VivaConnectionHost, VivaConnectionsLightHost } from "./containers/viva-connections/VivaConnectionsLight";
 // import { DefaultHost } from "./containers/default/DefaultHost";
@@ -18,7 +22,7 @@ import { useEffect, useRef, useState } from "react";
 // import { VivaConnectionsDarkHost } from "./containers/viva-connections/VivaConnectionsDark";
 
 export interface IAdaptiveCardProviderProps {
-    content: string;
+    payload: JSON;
 }
 
 
@@ -48,6 +52,7 @@ export function AdaptiveCardProvider(props: IAdaptiveCardProviderProps) {
     const renderAdaptiveCard = async () => {
         // Create an AdaptiveCard instance
         var adaptiveCard = new AdaptiveCards.AdaptiveCard();
+
         selectedHost.colorTheme = selectedThemeIndex == 0 ? ColorTheme.Light : ColorTheme.Dark;
 
         if (selectedHost.constructor.name.endsWith("WidgetContainer")) {
@@ -58,13 +63,16 @@ export function AdaptiveCardProvider(props: IAdaptiveCardProviderProps) {
         // Host Config defines the style and behavior of a card
         adaptiveCard.hostConfig = new AdaptiveCards.HostConfig(selectedHost.getHostConfig());
 
-        // Set the adaptive card's event handlers. onExecuteAction is invoked
-        // whenever an action is clicked in the card
-        //adaptiveCard.onExecuteAction = function (_action) { alert("Ow!"); }
+        // Process markdown and purify HTML
+        AdaptiveCard.onProcessMarkdown = (text: string, result: IMarkdownProcessingResult) => {
+            result.outputHtml = DOMPurify.sanitize(new markdownit().render(text));
+            result.didProcess = true;
+        };
 
         // Parse the card payload
-        adaptiveCard.parse(JSON.parse(props.content));
+        adaptiveCard.parse(props.payload);
 
+        // Empty the existing content before reloading
         if (divElement.current) {
             while (divElement.current.firstChild) {
                 divElement.current.removeChild(divElement.current.firstChild);
@@ -72,60 +80,34 @@ export function AdaptiveCardProvider(props: IAdaptiveCardProviderProps) {
             selectedHost.renderTo(divElement.current);
             adaptiveCard.render(selectedHost.cardHost);
 
-
+            // Override the background color based on selected host and theme
             if (cardArea.current) {
                 cardArea.current.style.backgroundColor = selectedHost.getBackgroundColor();
             }
         }
 
-
-
+        // Set designer host constraint based on device emulation
         if (designerHost.current) {
-            let deviceIndex: number = selectedDeviceIndex;
-            let maxWidth: number = 0;
-            if (!selectedHost.enableDeviceEmulation) {
-                deviceIndex = 0;
+            let maxWidth: string = "";
+            if (selectedHost.enableDeviceEmulation) {
+                maxWidth = HostContainer.supportDeviceSizes[selectedDeviceIndex];
             }
-
-            switch (deviceIndex) {
-                case 1:
-                    maxWidth = 320;
-                    break;
-                case 2:
-                    maxWidth = 414;
-                    break;
-                case 3:
-                    maxWidth = 768;
-                    break;
-                case 4:
-                    maxWidth = 1024;
-                    break;
-                default:
-                    maxWidth = 0;
-                    break;
-            }
-
-            if (maxWidth > 0) {
-                designerHost.current.style.maxWidth = `${maxWidth}px`;
-            } else {
-                designerHost.current.style.maxWidth = "";
-            }
+            designerHost.current.style.maxWidth = maxWidth;
         }
     }
+
     useEffect(() => {
         renderAdaptiveCard();
-    }, [selectedHostAppIndex, selectedThemeIndex, selectedWidgetSizeIndex, selectedDeviceIndex]);
+    }, [props, selectedHostAppIndex, selectedThemeIndex, selectedWidgetSizeIndex, selectedDeviceIndex]);
 
     return (
         <Box padding={"8px"} >
             <Box p={1} display="flex" bg="canvas.subtle" borderColor="border.default" borderWidth={1} borderStyle="solid">
                 <Box p={1} >
                     <ActionMenu>
-
                         <ActionMenu.Button aria-label="Select host app">
                             Host app: {selectedHost.name}
                         </ActionMenu.Button>
-
                         <ActionMenu.Overlay>
                             <ActionList selectionVariant="single">
                                 {hostContainers.map((type, index) => (
@@ -142,7 +124,6 @@ export function AdaptiveCardProvider(props: IAdaptiveCardProviderProps) {
                         <ActionMenu.Button aria-label="Select theme" disabled={!selectedHost.supportsMultipleThemes} title={selectedHost.supportsMultipleThemes ? "Select a theme" : "This host does not support themes"}>
                             Theme: {HostContainer.supportedContainerThemes[selectedThemeIndex]}
                         </ActionMenu.Button>
-
                         <ActionMenu.Overlay>
                             <ActionList selectionVariant="single">
                                 {HostContainer.supportedContainerThemes.map((themeName, index) => (
@@ -156,49 +137,41 @@ export function AdaptiveCardProvider(props: IAdaptiveCardProviderProps) {
                 </Box>
 
                 {selectedHost.constructor.name.endsWith("WidgetContainer") &&
-
                     <Box p={1} >
                         <ActionMenu>
                             <ActionMenu.Button aria-label="Select container size" disabled={!selectedHost.supportsMultipleSizes}>
                                 Container size: {WidgetContainer.supportedContainerSizes[selectedWidgetSizeIndex]}
                             </ActionMenu.Button>
-
-
-
-                            <ActionMenu.Overlay>
-                            <ActionList selectionVariant="single">
-                                {WidgetContainer.supportedContainerSizes.map((sizeName, index) => (
-                                    <ActionList.Item key={index} selected={index === selectedWidgetSizeIndex} onSelect={() => setSelectedSizeIndex(index)}>
-                                        {sizeName}
-                                    </ActionList.Item>
-                                ))}
-                            </ActionList>
-                        </ActionMenu.Overlay>
-                        </ActionMenu>
-                    </Box>
-                }
-
-
-                    <Box p={1} >
-                        <ActionMenu>
-                        <ActionMenu.Button aria-label="Select device emulation" disabled={!selectedHost.enableDeviceEmulation} title={selectedHost.enableDeviceEmulation ? "Select a device to emulate": "This host does not support device emulation"}>
-                                Emulate device: {HostContainer.supportedDeviceEmulations[selectedDeviceIndex]}
-                            </ActionMenu.Button>
-
                             <ActionMenu.Overlay>
                                 <ActionList selectionVariant="single">
-                                    {HostContainer.supportedDeviceEmulations.map((deviceName, index) => (
-                                        <ActionList.Item key={index} selected={index === selectedDeviceIndex} onSelect={() => setSelectedDeviceIndex(index)}>
-                                            {deviceName}
+                                    {WidgetContainer.supportedContainerSizes.map((sizeName, index) => (
+                                        <ActionList.Item key={index} selected={index === selectedWidgetSizeIndex} onSelect={() => setSelectedSizeIndex(index)}>
+                                            {sizeName}
                                         </ActionList.Item>
                                     ))}
                                 </ActionList>
                             </ActionMenu.Overlay>
                         </ActionMenu>
                     </Box>
+                }
 
+                <Box p={1} >
+                    <ActionMenu>
+                        <ActionMenu.Button aria-label="Select device emulation" disabled={!selectedHost.enableDeviceEmulation} title={selectedHost.enableDeviceEmulation ? "Select a device to emulate" : "This host does not support device emulation"}>
+                            Emulate device: {HostContainer.supportedDeviceEmulations[selectedDeviceIndex]}
+                        </ActionMenu.Button>
+                        <ActionMenu.Overlay>
+                            <ActionList selectionVariant="single">
+                                {HostContainer.supportedDeviceEmulations.map((deviceName, index) => (
+                                    <ActionList.Item key={index} selected={index === selectedDeviceIndex} onSelect={() => setSelectedDeviceIndex(index)}>
+                                        {deviceName}
+                                    </ActionList.Item>
+                                ))}
+                            </ActionList>
+                        </ActionMenu.Overlay>
+                    </ActionMenu>
+                </Box>
             </Box>
-
 
             <Box borderColor="border.default" borderWidth={1} borderStyle="solid" borderTopStyle="none">
                 <div className="acd-designer-cardArea" ref={cardArea}>

@@ -6,7 +6,7 @@ import { theme } from "./webchat-container";
 import * as hostConfig from "./webchat.json";
 
 export class WebChatContainer extends SingleThemeHostContainer {
-    public renderTo(hostElement: HTMLElement) {
+    public renderTo(hostElement: HTMLElement): void {
         this.cardHost.classList.add("webChatOuterContainer");
 
         let frame = document.createElement("div");

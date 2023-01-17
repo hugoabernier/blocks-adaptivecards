@@ -75,14 +75,17 @@ export const lightTheme = `
 
 .widget-large-card {
     height: 462px;
+    overflow: hidden;
 }
 
 .widget-medium-card {
     height: 304px;
+    overflow: hidden;
 }
 
 .widget-small-card {
     height: 146px;
+    overflow: hidden;
 }
 
 .ac-input {

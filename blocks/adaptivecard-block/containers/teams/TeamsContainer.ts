@@ -19,7 +19,7 @@ export class TeamsContainer extends MultiThemeHostContainer {
         );
     }
 
-    public renderTo(hostElement: HTMLElement) {
+    public renderTo(hostElement: HTMLElement): void {
         var outerFrame = document.createElement("div");
         outerFrame.className = "teams-frame";
 

@@ -16,6 +16,14 @@ export enum DeviceEmulation {
     LargeTablet = "Large tablet (1024px)"
 }
 
+export enum DeviceSize {
+    Desktop = "",
+    SmallMobile = "320px",
+    LargeMobile = "414px",
+    SmallTablet = "768px",
+    LargeTablet = "1024px"
+}
+
 export abstract class HostContainer {
     private _cardHost: HTMLElement;
     private _elementsRegistry = new CardObjectRegistry<CardElement>();
@@ -33,7 +41,7 @@ export abstract class HostContainer {
         GlobalRegistry.populateWithDefaultActions(this._actionsRegistry);
     }
 
-    abstract renderTo(hostElement: HTMLElement);
+    abstract renderTo(hostElement: HTMLElement): void;
     
     abstract getCurrentStyleSheet(): string;
 
@@ -55,11 +63,11 @@ export abstract class HostContainer {
         return "#F6F6F6";
     }
 
-    public parseElement(element: CardElement, source: any, context: SerializationContext) {
+    public parseElement(_element: CardElement, _source: any, _context: SerializationContext) {
         // Do nothing in base implementation
     }
 
-    public anchorClicked(element: CardElement, anchor: HTMLAnchorElement): boolean {
+    public anchorClicked(_element: CardElement, _anchor: HTMLAnchorElement): boolean {
         // Not handled by the host container by default
         return false;
     }
@@ -118,12 +126,16 @@ export abstract class HostContainer {
         return Object.values(DeviceEmulation);
     }
 
+    static get supportDeviceSizes(): string[] {
+        return Object.values(DeviceSize);
+    }
+
     get supportsMultipleThemes(): boolean {
         // By default, we do not support different color themes
         return false;
     }
 
-    set colorTheme(value: ColorTheme) {
+    set colorTheme(_value: ColorTheme) {
         // Not handled by the host container by default
     }
 }

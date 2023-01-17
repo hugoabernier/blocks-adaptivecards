@@ -13,7 +13,7 @@ export class OutlookContainer extends SingleThemeHostContainer {
         this.actionsRegistry.register("Action.Http", Adaptive.HttpAction);
     }
 
-    public renderTo(hostElement: HTMLElement) {
+    public renderTo(hostElement: HTMLElement): void {
         this.cardHost.classList.add("outlook-frame");
         hostElement.appendChild(this.cardHost);
 

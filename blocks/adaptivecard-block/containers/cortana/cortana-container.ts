@@ -19,7 +19,7 @@ export class CortanaContainer extends MultiThemeHostContainer {
         );
     }
 
-    public renderTo(hostElement: HTMLElement) {
+    public renderTo(hostElement: HTMLElement): void {
         var frame = document.createElement("div");
 
         frame.appendChild(this.cardHost);

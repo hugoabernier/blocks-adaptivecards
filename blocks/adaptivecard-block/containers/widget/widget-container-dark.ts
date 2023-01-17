@@ -57,15 +57,18 @@ export const darkTheme = `
 /* widget-large/medium/small-container  4px(top+bottom padding+margin) widget-outer-container border*/
 
 .widget-large-card {
-    height: 462px
+    height: 462px;
+    overflow: hidden;
 }
 
 .widget-medium-card {
     height: 304px;
+    overflow: hidden;
 }
 
 .widget-small-card {
     height: 146px;
+    overflow: hidden;
 }
 
 .ac-adaptiveCard {

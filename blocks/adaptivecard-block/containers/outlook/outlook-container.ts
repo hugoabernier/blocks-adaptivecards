@@ -1,11 +1,4 @@
 export const theme = `
-@font-face {
-  font-family: 'FabricMDL2Icons';
-  src: url("https://static2.sharepointonline.com/files/fabric/assets/icons/fabricmdl2icons.woff2?2.21") format("woff2"), url("https://static2.sharepointonline.com/files/fabric/assets/icons/fabricmdl2icons.woff?2.21") format("woff"), url("https://static2.sharepointonline.com/files/fabric/assets/icons/fabricmdl2icons.ttf?2.21") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-
 .outlook-frame {
     border: 1px solid #F1F1F1;
     box-shadow: 0 0 15px -5px rgba(0, 0, 0, 0.4);
