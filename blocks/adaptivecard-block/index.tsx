@@ -7,8 +7,9 @@ import "./index.css";
 
 
 export default function (props: FileBlockProps) {
-  const { context, content, metadata, onUpdateMetadata } = props;
+  const { content, metadata } = props;
   
+  console.log("Metadata", metadata);
   const data: JSON = useMemo(() => {
     try {
       return JSON.parse(content);
@@ -18,8 +19,8 @@ export default function (props: FileBlockProps) {
   }, [content]);
 
   return (
-    <div className="overflow-y-auto w-full flex-1">
-      <AdaptiveCardProvider payload={data} />
+    <div className="overflow-y-auto w-full flex-1" data-version="0.1.4">
+      <AdaptiveCardProvider payload={data} metadata={metadata} />
     </div>
   );
 }
