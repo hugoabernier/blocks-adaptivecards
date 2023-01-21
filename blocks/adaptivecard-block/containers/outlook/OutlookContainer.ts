@@ -6,8 +6,8 @@ import { theme } from "./outlook-container";
 import * as hostConfig from "./outlook-desktop.json";
 
 export class OutlookContainer extends SingleThemeHostContainer {
-    constructor(name: string, styleSheet: string) {
-        super(name, styleSheet);
+    constructor() {
+        super("Outlook Actionable Messages", "containers/outlook/outlook-container.css");
 
         this.actionsRegistry.unregister("Action.Submit");
         this.actionsRegistry.register("Action.Http", Adaptive.HttpAction);

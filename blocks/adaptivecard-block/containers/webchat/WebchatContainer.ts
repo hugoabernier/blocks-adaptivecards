@@ -6,6 +6,12 @@ import { theme } from "./webchat-container";
 import * as hostConfig from "./webchat.json";
 
 export class WebChatContainer extends SingleThemeHostContainer {
+    /**
+     *
+     */
+    constructor() {
+        super("Bot Framework WebChat", "containers/webchat/webchat-container.css");   
+    }
     public renderTo(hostElement: HTMLElement): void {
         this.cardHost.classList.add("webChatOuterContainer");
 

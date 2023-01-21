@@ -6,6 +6,10 @@ import { theme } from "./cortana-container";
 import * as hostConfig from "./cortana-skills-classic.json";
 
 export class CortanaClassicContainer extends SingleThemeHostContainer {
+    constructor() {
+        super("Cortana Skills (Classic)", "containers/cortana-classic/cortana-container.css");  
+    }
+    
     public renderTo(hostElement: HTMLElement): void {
         this.cardHost.classList.add("cortana-card");
 

@@ -6,8 +6,8 @@ import { theme } from "./federated-search-container";
 import * as hostConfig from "./federated-search.json";
 
 export class FederatedSearchContainer extends SingleThemeHostContainer {
-    constructor(name: string, styleSheet: string) {
-        super(name, styleSheet);
+    constructor() {
+        super("Federated Search", "containers/federated-search/federated-search-container.css");
 
         this.actionsRegistry.unregister("Action.Submit");
         this.elementsRegistry.unregister("Input.Text");

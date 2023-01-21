@@ -3,6 +3,7 @@
         "adaptivecards",
         "Cortana",
         "dompurify",
+        "githubnext",
         "linkify",
         "markdownit",
         "webchat"
