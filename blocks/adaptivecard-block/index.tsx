@@ -9,7 +9,6 @@ import "./index.css";
 export default function (props: FileBlockProps) {
   const { content, metadata } = props;
   
-  console.log("Metadata", metadata);
   const data: JSON = useMemo(() => {
     try {
       return JSON.parse(content);

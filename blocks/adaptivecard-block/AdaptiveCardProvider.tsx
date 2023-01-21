@@ -91,18 +91,14 @@ export function AdaptiveCardProvider(props: IAdaptiveCardProviderProps) {
     }
 
     useMemo(()=> {
-        console.log("Use memo", props.metadata);
-
         if (props.metadata) {
             const { hostApp, theme, deviceEmulation, hideToolbar } = props.metadata;
             const newContainerIndex: number = hostContainers.findIndex(c => c.name == hostApp);
-            console.log("New container index", newContainerIndex);
             if (newContainerIndex > -1) {
                 setSelectedHostAppIndex(newContainerIndex);
             }
 
             const newThemeIndex: number = Object.values(HostContainer.supportedContainerThemes).findIndex((t: string) => t == theme);
-            console.log("New theme index", newThemeIndex)
             if (newThemeIndex > -1) {
                 setSelectedThemeIndex(newThemeIndex);
             }
